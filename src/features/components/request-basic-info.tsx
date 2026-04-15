@@ -26,7 +26,7 @@ export function RequestBasicInfo({ data, onChange }: RequestBasicInfoProps) {
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 w-full">
           <FormLabel label="Priority" required />
           <SelectField
             value={data.priority}
@@ -36,7 +36,7 @@ export function RequestBasicInfo({ data, onChange }: RequestBasicInfoProps) {
           />
         </div>
 
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 w-full">
           <FormLabel label="Category" required />
           <SelectField
             value={data.category}
@@ -58,7 +58,7 @@ export function RequestBasicInfo({ data, onChange }: RequestBasicInfoProps) {
 function SelectField<T extends string>({ value, options, labels, onSelect }: { value: T; options: T[]; labels: Record<T, string>; onSelect: (value: T) => void }) {
   return (
     <Dropdown.Root>
-      <Dropdown.Trigger>
+      <Dropdown.Trigger className='w-full'>
         <div className={cn(
           'flex w-full items-center justify-between gap-2',
           'rounded-lg border border-secondary bg-primary px-3 py-2',
@@ -68,7 +68,7 @@ function SelectField<T extends string>({ value, options, labels, onSelect }: { v
           <ChevronDown className="size-4 text-tertiary" />
         </div>
       </Dropdown.Trigger>
-      <Dropdown.Panel className="w-(--radix-dropdown-trigger-width)">
+      <Dropdown.Panel>
         {options.map((option) => (
           <Dropdown.Item key={option} onSelect={() => onSelect(option)}>
             <Label.xs className={cn(option === value && 'text-brand')}>{labels[option]}</Label.xs>

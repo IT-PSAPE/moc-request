@@ -44,7 +44,7 @@ export function RequestScreen() {
     <PublicLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <Title.h3>New Request</Title.h3>
+          <Title.h5>New Request</Title.h5>
           <Paragraph.sm className="text-secondary">Fill in the details for your production request.</Paragraph.sm>
         </div>
 

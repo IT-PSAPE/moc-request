@@ -1,16 +1,16 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { fetchPublicEquipment } from '@/data/fetch-equipment'
 import type { PublicEquipmentItem, EquipmentCategory } from '@/types/equipment'
 
 export function useEquipmentBrowser(checkedOutAt: string, expectedReturnAt: string) {
-  const [items, setItems] = useState<PublicEquipmentItem[]>([])
+  const [allItems, setAllItems] = useState<PublicEquipmentItem[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [categoryFilter, setCategoryFilter] = useState<EquipmentCategory | null>(null)
+  const [categoryFilters, setCategoryFilters] = useState<EquipmentCategory[]>([])
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const load = useCallback(async (search: string, category: EquipmentCategory | null) => {
+  const load = useCallback(async (search: string) => {
     setLoading(true)
     setError(null)
     try {
@@ -18,9 +18,8 @@ export function useEquipmentBrowser(checkedOutAt: string, expectedReturnAt: stri
         checkedOutAt || undefined,
         expectedReturnAt || undefined,
         search || undefined,
-        category ?? undefined,
       )
-      setItems(data)
+      setAllItems(data.filter((item) => item.status !== 'maintenance'))
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load equipment')
     } finally {
@@ -31,14 +30,19 @@ export function useEquipmentBrowser(checkedOutAt: string, expectedReturnAt: stri
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
     debounceRef.current = setTimeout(() => {
-      load(searchQuery, categoryFilter)
+      load(searchQuery)
     }, 300)
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
-  }, [searchQuery, categoryFilter, load])
+  }, [searchQuery, load])
+
+  const items = useMemo(() => {
+    if (categoryFilters.length === 0) return allItems
+    return allItems.filter((item) => categoryFilters.includes(item.category))
+  }, [allItems, categoryFilters])
 
   const refresh = useCallback(() => {
-    load(searchQuery, categoryFilter)
-  }, [load, searchQuery, categoryFilter])
+    load(searchQuery)
+  }, [load, searchQuery])
 
   return {
     items,
@@ -46,8 +50,8 @@ export function useEquipmentBrowser(checkedOutAt: string, expectedReturnAt: stri
     error,
     searchQuery,
     setSearchQuery,
-    categoryFilter,
-    setCategoryFilter,
+    categoryFilters,
+    setCategoryFilters,
     refresh,
   }
 }

@@ -1,5 +1,5 @@
 import type { RequestPriority, RequestCategory } from '@/types/request'
-import type { EquipmentCategory } from '@/types/equipment'
+import type { EquipmentCategory, EquipmentStatus } from '@/types/equipment'
 
 export const PRIORITY_LABELS: Record<RequestPriority, string> = {
   low: 'Low',
@@ -70,3 +70,12 @@ export const BOOKING_STEPS = [
 export const PRIORITIES: RequestPriority[] = ['low', 'medium', 'high', 'urgent']
 export const CATEGORIES: RequestCategory[] = ['video_production', 'video_shooting', 'graphic_design', 'event', 'education']
 export const EQUIPMENT_CATEGORIES: EquipmentCategory[] = ['camera', 'lens', 'lighting', 'audio', 'support', 'monitor', 'cable', 'accessory']
+
+export const EQUIPMENT_STATUS_LABELS: Record<EquipmentStatus, string> = {
+  available: 'Available',
+  booked: 'Booked',
+  booked_out: 'Booked Out',
+  maintenance: 'Maintenance',
+}
+
+export const EQUIPMENT_STATUSES: EquipmentStatus[] = ['available', 'booked', 'booked_out', 'maintenance']

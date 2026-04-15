@@ -29,7 +29,7 @@ export function TrackScreen() {
     <PublicLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <Title.h3>Track Submission</Title.h3>
+          <Title.h5>Track Submission</Title.h5>
           <Paragraph.sm className="text-secondary">
             Enter your tracking code to view the status of your request or booking.
           </Paragraph.sm>

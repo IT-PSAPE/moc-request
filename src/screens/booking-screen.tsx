@@ -46,7 +46,7 @@ export function BookingScreen() {
     <PublicLayout>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <Title.h3>Book Equipment</Title.h3>
+          <Title.h5>Book Equipment</Title.h5>
           <Paragraph.sm className="text-secondary">Enter your booking details, then select available equipment.</Paragraph.sm>
         </div>
 
@@ -72,6 +72,8 @@ export function BookingScreen() {
               onToggle={actions.toggleEquipment}
               searchQuery={equipment.searchQuery}
               onSearchChange={equipment.setSearchQuery}
+              categoryFilters={equipment.categoryFilters}
+              onCategoryChange={equipment.setCategoryFilters}
               loading={equipment.loading}
             />
           </>
